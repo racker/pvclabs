@@ -42,12 +42,6 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.taskipy.tasks]
-poetry_lint = "poetry check"
-flake = "flake8 --max-line-length=88 --count --statistics app tests"
-black = "black --config pyproject.toml --check app tests"
-isort = "isort --settings-path pyproject.toml --check-only app tests"
-bandit = "bandit -r app tests"
-safety = "safety check --cache --full-report"
 
 gate = "task poetry_lint && task flake && task black && task isort && task bandit && task safety"
 

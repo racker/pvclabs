@@ -44,8 +44,10 @@ COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 WORKDIR $PYSETUP_PATH
 RUN poetry install
 
-COPY ./app ./tests ./
-RUN poetry run task tests
+COPY ./app /app 
+COPY ./tests /tests
+COPY ./python_docker/gate_tests.sh /
+RUN /gate_tests.sh
 
 # Copying in our entrypoint
 COPY ./python_docker/docker-entrypoint_dev.sh /docker-entrypoint.sh
