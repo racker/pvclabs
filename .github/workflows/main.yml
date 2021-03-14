@@ -15,7 +15,7 @@ jobs:
       - name: Prepare Vars
         id: prep
         run: |
-          DOCKER_IMAGE=ghcr.io/racker/pvclabs-gamercon-server
+          DOCKER_IMAGE=chalupaul/pvclabs-gamercon-server
           VERSION=latest
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
