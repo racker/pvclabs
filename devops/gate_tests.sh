@@ -5,8 +5,11 @@ set +x
 DEFAULT_DIR="/opt/pysetup"
 LOCAL_DIR=${1:-$DEFAULT_DIR}
 
-cd ${LOCAL_DIR} && poetry check && cd -
+
 commands=( \
+    "cd ${LOCAL_DIR} && \
+        poetry check && \
+        cd -" \
     "flake8 \
         --max-line-length=88 \
         --count \

@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  Rollout_the_barrel:
+  Deploy App:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
