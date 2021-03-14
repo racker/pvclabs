@@ -47,7 +47,8 @@ RUN poetry install
 COPY ./app /app 
 COPY ./tests /tests
 COPY ./python_docker/gate_tests.sh /
-RUN /gate_tests.sh
+WORKDIR /
+RUN ./gate_tests.sh
 
 # Copying in our entrypoint
 COPY ./python_docker/docker-entrypoint_dev.sh /docker-entrypoint.sh
