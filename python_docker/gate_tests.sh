@@ -45,6 +45,6 @@ commands=( \
 )
 
 for c in ${commands[@]}; do
-    eval $c
-    [[ $? != 0 ]] && exit 1
+    ${c}
+    (( $? != 0 )) && { echo "FAILED: ${c}"; exit 15; } || continue
 done
