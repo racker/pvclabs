@@ -30,10 +30,10 @@ WORKDIR $PYSETUP_PATH
 COPY ./poetry.lock ./pyproject.toml ./
 RUN poetry install --no-dev  # respects 
 
-# 'development' stage installs all dev deps and can be used to develop code.
+# 'dev' stage installs all dev deps and can be used to develop code.
 # For example using docker-compose to mount local volume under /app
-FROM python-base as development
-ENV TARGET_ENV=development
+FROM python-base as dev
+ENV TARGET_ENV=dev
 
 # Copying poetry and venv into image
 COPY --from=builder-base $POETRY_HOME $POETRY_HOME
@@ -43,9 +43,10 @@ COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 # This time with 74% more dev dependencies!
 WORKDIR $PYSETUP_PATH
 RUN poetry install
+RUN poetry run task tests
 
-RUN mkdir /dev_app
-WORKDIR /dev_app
+COPY ./app /app
+WORKDIR /app
 
 # Copying in our entrypoint
 COPY ./python_docker/docker-entrypoint_dev.sh /docker-entrypoint.sh
@@ -54,7 +55,7 @@ ENTRYPOINT /docker-entrypoint.sh $0 $@
 
 # 'production' stage uses the clean 'python-base' stage and copyies
 # in only our runtime deps that were installed in the 'builder-base'
-FROM python-base as production
+FROM python-base as prod
 ENV TARGET_ENV=production
 
 COPY --from=builder-base $VENV_PATH $VENV_PATH
