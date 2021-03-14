@@ -43,10 +43,9 @@ COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 # This time with 74% more dev dependencies!
 WORKDIR $PYSETUP_PATH
 RUN poetry install
-RUN poetry run task tests
 
-COPY ./app /app
-WORKDIR /app
+COPY ./app ./tests ./
+RUN poetry run task tests
 
 # Copying in our entrypoint
 COPY ./python_docker/docker-entrypoint_dev.sh /docker-entrypoint.sh
