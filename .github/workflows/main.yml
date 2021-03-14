@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  Build_Containers:
+  Build_Push_Containers:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
