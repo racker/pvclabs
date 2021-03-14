@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "pvclabs-gamercon"
+version = "0.1.0"
+description = ""
+authors = ["chalupaul <me@chalupaul.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.dev-dependencies]
+black = "^20.8b1"
+isort = "^5.7.0"
+safety = "^1.10.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
