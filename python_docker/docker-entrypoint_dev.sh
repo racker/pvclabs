@@ -1,4 +1,4 @@
 #!/bin/sh
 
 echo "Hello from dev"
-python /app/app.py
+python /dev_app/app.py
