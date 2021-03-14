@@ -46,5 +46,5 @@ commands=( \
 
 for c in ${commands[@]}; do
     ${c}
-    (( $? != 0 )) && { echo "FAILED: ${c}"; exit 15; } || continue
+    (( $? == 0 )) || { echo "FAILED: ${c}"; exit 15; }
 done
