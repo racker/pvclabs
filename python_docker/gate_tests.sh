@@ -5,41 +5,43 @@ set +x
 DEFAULT_DIR="/opt/pysetup"
 LOCAL_DIR=${1:-$DEFAULT_DIR}
 
+function run_poetry_check() {
+    cd ${LOCAL_DIR} && poetry check && cd -
+}
+
+function run_flake8() {
+    flake8 --max-line-length=88 --count --statistics ./app ./tests
+}
+
+function run_black() {
+    black --config ${LOCAL_DIR}/pyproject.toml --check ./app ./tests
+}
+
+function run_isort() {
+    isort --settings-path ${LOCAL_DIR}/pyproject.toml --check-only ./app ./tests
+}
+
+function run_bandit() {
+    bandit -r ./app ./tests
+}
+
+function run_safety() {
+    safety check --cache --full-report
+}
+
+function run_coverage() {
+    coverage run -m --branch --omit='*/tests/*' --source ./app pytest -vv ./tests && \
+    coverage report -m --skip-covered --skip-empty --fail-under=75
+}
 
 commands=( \
-    "cd ${LOCAL_DIR} && \
-        poetry check && \
-        cd -" \
-    "flake8 \
-        --max-line-length=88 \
-        --count \
-        --statistics \
-        ./app ./tests" \
-    "black \
-        --config ${LOCAL_DIR}/pyproject.toml \
-        --check \
-        ./app ./tests" \
-    "isort \
-        --settings-path ${LOCAL_DIR}/pyproject.toml \
-        --check-only \
-        ./app ./tests" \
-    "bandit \
-        -r ./app ./tests \
-    safety check \
-        --cache \
-        --full-report" \
-    "coverage run \
-        -m \
-        --branch \
-        --omit='*/tests/*' \
-        --source ./app \
-            pytest -vv \
-                ./tests && \
-                coverage report \
-                    -m \
-                    --skip-covered \
-                    --skip-empty \
-                    --fail-under=75 " \
+    run_poetry_check \
+    run_flake8 \ 
+    run_black \
+    run_isort \
+    run_bandit \
+    run_safety \
+    run_coverage \
 )
 
 for c in ${commands[@]}; do
